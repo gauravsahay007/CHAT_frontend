@@ -19,6 +19,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Snackbar,Alert } from '@mui/material';
+import { API } from '../../backend';
 
 // --------------------------------------------------------
 export default function Signup() {
@@ -156,7 +157,7 @@ export default function Signup() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="http://localhost:3000/login" variant="body2">
+                <Link href={`${API}/login`}>
                   Already have an account? Sign in
                 </Link>
               </Grid>

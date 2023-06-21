@@ -20,6 +20,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Snackbar,Alert } from '@mui/material';
 import { ChatState } from '../../main/chatProvider';
+import { API } from '../../backend';
 
 // --------------------------------------------------------
 export default function Login() {
@@ -147,7 +148,7 @@ export default function Login() {
 
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="http://localhost:3000/signup" variant="body2">
+                <Link href={`${API}/signup`}>
                   Don't have an account? Sign up
                 </Link>
               </Grid>
