@@ -76,6 +76,9 @@ export default function Login() {
         setSuccess(false);
       }
     
+     const onClickLink =()=>{
+      navigate("/signup")
+     }
  
 
 
@@ -148,9 +151,9 @@ export default function Login() {
 
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href={`/signup`}>
+                <Typography onClick={onClickLink} >
                   Don't have an account? Sign up
-                </Link>
+                </Typography>
               </Grid>
             </Grid>
 

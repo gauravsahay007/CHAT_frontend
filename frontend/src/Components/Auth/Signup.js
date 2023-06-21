@@ -72,7 +72,9 @@ export default function Signup() {
       }
     
  
-
+      const onClickLink =()=>{
+        navigate("/login")
+       }
 
   return (
     <div >
@@ -157,9 +159,9 @@ export default function Signup() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href={`/login`}>
-                  Already have an account? Sign in
-                </Link>
+              <Typography onClick={onClickLink} >
+                  Already have an account? Log in
+                </Typography>
               </Grid>
             </Grid>
           </Box>
