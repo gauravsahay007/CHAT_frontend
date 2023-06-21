@@ -148,7 +148,7 @@ export default function Login() {
 
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href={`${API}/signup`}>
+                <Link href={`/signup`}>
                   Don't have an account? Sign up
                 </Link>
               </Grid>
