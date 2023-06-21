@@ -43,7 +43,7 @@ export default function SingleChat({fetchAgain, setFetchAgain}) {
         
     // console.log(socket);
     useEffect(()=>{
-        socket = io.connect("http://localhost:8080");
+        socket = io.connect("https://simplechat-server-production.up.railway.app");
         
         socket.emit("setup",user);
         socket.on("connected",()=>setSocketConnected(true));
