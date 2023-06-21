@@ -1,0 +1,31 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.fade-container {
+    position: relative;
+  }
+  
+  .fade-item {
+    opacity: 0;
+    animation: fade-in 0.1s ease forwards;
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .fade-item.last-item {
+    animation-delay: 0.05s;
+  }
+  
+  .custom-focused .MuiOutlinedInput-notchedOutline {
+    border-color: red; /* Replace "red" with your desired color */
+  }
+  
