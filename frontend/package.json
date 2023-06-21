@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,7 +27,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "develop": "concurrently \"react-scripts start\" \" nodemon ./src/services/server.js\"",
+    "develop": "react-scripts start",
     "start": "react-scripts start",
     "build": "CI=false react-scripts build",
     "test": "react-scripts test",
@@ -53,6 +53,6 @@
     ]
   },
   "devDependencies": {
-    "eslint-plugin-react-hooks": "^4.6.0"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
