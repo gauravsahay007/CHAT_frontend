@@ -1,17 +1,18 @@
-import React from 'react'
-import {  Box } from '@mui/material'
-import Routers from "./Router"
-import io from "socket.io-client"
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Homepage from "./Pages/HomePage";
+import Chatpage from "./Pages/ChatPage";
 
-export default function App() {
-  
+function App() {
   return (
-    <React.StrictMode>
+    <div className="App">
+      <Routes>
+      <Route path="/" exact element={<Homepage/>} />
+      <Route path="/chats" element={<Chatpage/>} />
+      </Routes>
       
-       <Routers/> 
-    
-
-      </React.StrictMode>
-    
-  )
+    </div>
+  );
 }
+
+export default App;

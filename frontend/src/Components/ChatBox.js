@@ -1,24 +1,28 @@
-import React from 'react'
-import SingleChat from './SingleChat';
-import { ChatState } from '../main/chatProvider';
-import { Box } from '@mui/material';
-import ScrollableFeed from 'react-scrollable-feed';
-import LOGO from "../logo.png"
-export default function ChatBox({fetchAgain, setFetchAgain}) {
-    const {selectedChat} = ChatState();
-  return (
-    <>
-    {selectedChat?(
-   
-   <Box
-    sx={{display:"flex",alignItems:"center",flexDirection:"column",height:"94vh",borderRadius:"4px", width:{xs:"98%", md:"69%", lg:"69%"}, bgcolor:"#F0EEED",mt:"10px",m:{xs:"auto", md:"0px",lg:"0px"
-}}}>
-       
-             <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+import { Box } from "@chakra-ui/react";
+import React from "react";
+import { ChatState } from "../Context/chatProvider";
+import SingleChat from "./SingleChat";
 
-    </Box>):(<>
-    <Box sx={{display:{xs:"none",md:"flex",lg:"flex"},margin:"auto"}}><img style={{ width:"35vw", border:"1px solid white", borderRadius:"4px"}} src={LOGO}/></Box>
-    </>)}
-    </>
-  )
-}
+const ChatBox = ({ fetchAgain, setFetchAgain }) => {
+  const { selectedChat } = ChatState();
+
+  return (
+    <Box
+      display={{ base: selectedChat ? "flex" : "none", md: "flex" }}
+      alignItems="center"
+      flexDir={"column"}
+     
+      marginLeft={"auto"}
+      marginRight={"auto"}
+      border={"5px solid black"}
+      color="black"
+      w={{ base: "100%", md: "68%" }}
+      borderRadius="sm"
+      borderWidth={"1px"}
+    >
+      <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+    </Box>
+  );
+};
+
+export default ChatBox;

@@ -1,30 +1,33 @@
-import React from 'react'
-import { useState } from 'react'
-import SideBar from '../Components/Modals/SideBar'
-import Mychats from '../Components/Mychats'
-import { ChatState } from '../main/chatProvider'
-import ChatBox from '../Components/ChatBox';
-import { Box } from '@mui/material';
+import React, { useState } from "react";
+import { ChatState } from "../Context/chatProvider";
+import { Box } from "@chakra-ui/react";
+import SideDrawer from "../components/miscellaneous/SideDrawer";
+import MyChats from "../components/Mychats";
+import ChatBox from "../components/ChatBox";
+import Header from "../components/miscellaneous/Header";
+const Chatpage = () => {
+  const { user } = ChatState();
+  const [fetchAgain, setFetchAgain] = useState();
 
-export default function ChatPage() {
-    const {user} = ChatState(); 
-    const [fetchAgain, setFetchAgain] = useState(false);
   return (
-    <Box sx={{ height: '100vh' , overflow: 'hidden'}}> 
+    <div style={{ width: "100%" }}>
+      {user && <Header />}
+      <Box
+        display={"flex"}
+        
+       gap={"0"}
+        w={"100%"}
+        h={"91.5vh"}
+        p={"3px"}
+        color={"black"}
+      >
+        {user && <MyChats fetchAgain={fetchAgain} />}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
+      </Box>
+    </div>
+  );
+};
 
-        {user && <SideBar/>}
-
-        <Box sx={{
-          display:"flex",
-          bgcolor:"#33455B",
-         boxSizing: "content-box",
-        justifyContent:"space-between" ,
-        w:"100vw", 
-        p:"5px"
-        }}>
-            {user && <Mychats fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/>}
-            {user && (<ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />)}
-        </Box>
-    </Box>
-  )
-}
+export default Chatpage;

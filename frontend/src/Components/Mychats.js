@@ -1,134 +1,161 @@
-import React from 'react'
-import { useState,useEffect } from 'react'
-import CreateGroupChat from './Modals/CreateGroupChat'
-import {Avatar} from '@mui/material'
-import { ChatState } from '../main/chatProvider'
-import { FetchChats } from './Helper';
-import { getOtherUser } from '../configuration/logic';
-import ChatLoading from './chatloading'
-// --------------------------------------------
-// MUI
-import { Box , Stack, Typography} from '@mui/material'
-
-// --------------------------------------------
-
-export default function Mychats({fetchAgain,setFetchAgain}) {
+import { Box, Button, Stack, Text, useToast,   Menu,
+  MenuButton,
+  MenuList,
+  MenuItem, } from "@chakra-ui/react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { ChatState } from "../Context/chatProvider";
+import AddIcon from "@mui/icons-material/Add";
+import ChatLoading from "./ChatLoading";
+import { getOtherUser } from "../config/ChatLogics";
+import GroupChatModal from "./miscellaneous/GroupChatModal";
+import { API } from "../API";
+import SideDrawer from "./miscellaneous/SideDrawer";
+import {HamburgerIcon} from "@chakra-ui/icons"
+const MyChats = ({ fetchAgain }) => {
   const {
     selectedChat,
     setSelectedChat,
     user,
     chats,
     setChats,
-    notification,
     removeNotification,
   } = ChatState();
 
   const [loggedUser, setLoggedUser] = useState(user);
-const [loading, setLoading] = useState(false);
- const fetchChats = () =>{
-  try{
-  FetchChats(user).then((response)=>{
-    // console.log(response);
-    setChats(response);
-    
-  })
-}catch(err){
-  console.log(err);
- }}
-   
- 
 
-  useEffect(()=>{
-  
-    setLoggedUser(JSON.parse(localStorage.getItem("userInfo")))
+  const toast = useToast();
+
+  const fetchChats = async () => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = await axios.get(`${API}/api/chat`, config);
+      setChats(data);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to Load the chats",
+        status: "error",
+        isClosable: true,
+        duration: 5000,
+        position: "bottom-left",
+      });
+    }
+  };
+
+  useEffect(() => {
+    setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-    // console.log("fetched again MyChats.js");
-  },[fetchAgain]);
+  }, [fetchAgain]);
 
-  const selectChat = (chat) =>{
-    
+  const selectChat = (chat) => {
     setSelectedChat(chat);
-    removeNotification(user,chat._id);
-    setFetchAgain(!fetchAgain);
-  }
-
+    removeNotification(chat._id);
+  };
 
   return (
-    <>
+    <Box
+      display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+      flexDir="column"
+      alignItems={"center"}
+      p={3}
+      bg="#3E103F"
+      w={{ base: "100%", md: "31%" }}
+      borderRadius="sm"
+      borderWidth={"1px"}
+      h="100%"
+    >
       <Box
-        sx={{
-          display: { md: selectedChat ? 'flex' : 'flex', xs: selectedChat ? 'none' : 'flex' },
-          flexDirection: 'column',
-          alignItems: 'center',
-          bgcolor: 'white',
-          height: '94vh',
-          mt: '10px',
-          m: { xs: 'auto', md: '0px', lg: '0px' },
-          borderRadius: '4px',
-          mr: { xs: 'auto', md: 'auto', lg: 'auto' },
-        }}
+        pb={3}
+      
+        color={"white"}
+        fontSize={{ base: "large", md: "2xl" }}
+        
+        display={"flex"}
+        w="100%"
+        justifyContent={"space-between"}
+        alignItems="center"
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <Typography sx={{ color: '#32465A', mt: '5px', ml: '10px' }}>MY CHATS</Typography>
-          <CreateGroupChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
-        </Box>
-
-        <Box
-          sx={{
-            bgcolor: '#F0EEED',
-            p: '10px',
-            borderRadius: '4px',
-            width: '100vw',
-            mt: '10px',
-            height: '90%',
-            mr: { xs: '0px', md: 'auto' },
-            ml: { xs: '0px', md: '5px', lg: '5px' },
-            width: { xs: '90vw', md: '30vw', lg: '30vw' },
-            overflow: 'auto',
-          }}
+        <SideDrawer/>
+        <Menu>
+        <MenuButton
         >
-          {chats ? (
-            <Stack sx={{ width: '100%', cursor: 'pointer' }}>
-              {chats.map((chat) => (
-                <Box
-                  onClick={() => selectChat(chat)}
-                  sx={{
-                    bgcolor: '#2C3E50',
-                    color: 'white',
-                    mb: '2px',
-                    width: '100%',
-                    height: '3rem',
-                    borderRadius: '4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '0 10px',
-                  }}
-                  key={chat._id}
-                >
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Avatar sx={{ width: '30px', height: '30px', mt: '3px', ml: '3px' }} cursor="pointer" src={user.pic} />
-                    <Typography sx={{ ml: '5px' }}>
-                      {!chat.isGroupChat ? chat.chatName : chat.chatName}
-                    </Typography>
-                  </Box>
-
-                  {chat.latestMessage && (
-                    <Typography sx={{ color: 'white', ml: 'auto' }}>
-                      {!chat.isGroupChat
-                        ? chat.latestMessage.content
-                        : chat.latestMessage.sender._id === loggedUser.user._id
-                        ? `You: ${chat.latestMessage.content}`
-                        : `${chat.latestMessage.sender.name}: ${chat.latestMessage.content}`}
-                    </Typography>
-                  )}
-                </Box>
-              ))}
-            </Stack>
-          ) : (
-            <ChatLoading />
-          )}
-        </Box>
+          <Button bgColor={"#3E103F"} color={"white"} fontSize={"22px"} >
+          <HamburgerIcon />
+          </Button>
+        </MenuButton>
+        <MenuList>
+          <MenuItem>
+            <GroupChatModal>
+              <Button
+                display="flex"
+                fontSize={{ base: '12px', md: '12px', lg: '14px' }}
+                bgColor="#3E103F"
+                color={"white"}
+                style={{fontFamily:"Pacifico", fontSize:"20px"}} 
+              >
+                New Group
+              </Button>
+            </GroupChatModal>
+          </MenuItem>
+        </MenuList>
+      </Menu>
       </Box>
-    </>
+      <Box
+        display={"flex"}
+        flexDir="column"
+        pt={3}
+        bg="#3E103F"
+        w="100%"
+        h="100%"
+        borderRadius={"lg"}
+        overflowY="hidden"
+      >
+        {chats ? (
+          <Stack overflowY={"scroll"}>
+            {chats.map((chat) => (
+              <Box
+                onClick={() => selectChat(chat)}
+                cursor="pointer"
+                bg={selectedChat === chat ? "#944F9A":"#3E103F"}
+                color={selectedChat === chat ? "white" : "white"}
+                px={3}
+                py={2}
+                borderRadius={"sm"}
+               
+                border={"1px"}
+                key={chat._id}
+              >
+                <Text fontWeight={"medium"}>
+                  {!chat.isGroupChat
+                    ? getOtherUser(loggedUser, chat.users).name
+                    : chat.chatName}
+                </Text>
+                {chat.latestMessage ? (
+                  <Text color={selectedChat === chat ? "white" : "white"}>
+                    {!chat.isGroupChat
+                      ? chat.latestMessage.content
+                      : chat.latestMessage.sender._id === loggedUser._id
+                      ? `You: ${chat.latestMessage.content}`
+                      : `${chat.latestMessage.sender.name}: ${chat.latestMessage.content}`}
+                  </Text>
+                ) : (
+                  <></>
+                )}
+              </Box>
+            ))}
+          </Stack>
+        ) : (
+          <ChatLoading />
+        )}
+      </Box>
+    </Box>
   );
-}
+};
+
+export default MyChats;
