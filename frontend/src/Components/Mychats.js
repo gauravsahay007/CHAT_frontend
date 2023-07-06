@@ -97,7 +97,7 @@ const MyChats = ({ fetchAgain }) => {
                 fontSize={{ base: '12px', md: '12px', lg: '14px' }}
                 bgColor="#3E103F"
                 color={"white"}
-                style={{fontFamily:"Pacifico", fontSize:"20px"}} 
+                style={{fontFamily:"Pacifico"}} 
               >
                 New Group
               </Button>
