@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { ChatState } from "../Context/chatProvider";
 import { Box } from "@chakra-ui/react";
-import SideDrawer from "../components/miscellaneous/SideDrawer";
-import MyChats from "../components/Mychats";
-import ChatBox from "../components/ChatBox";
-import Header from "../components/miscellaneous/Header";
+import SideDrawer from "../Components/miscellaneous/SideDrawer";
+import MyChats from "../Components/Mychats";
+import ChatBox from "../Components/ChatBox";
+import Header from "../Components/miscellaneous/Header";
 const Chatpage = () => {
   const { user } = ChatState();
   const [fetchAgain, setFetchAgain] = useState();
