@@ -41,7 +41,7 @@ git clone https://github.com/gauravsahay007/CHAT_frontend.git
 <p>2. Navigate to the Project Directory</p>
 
 ```
-cd repository-name
+cd CHAT_frontend
 ```
 
 <p>3. Install Dependencies</p>
